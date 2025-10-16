@@ -6,7 +6,6 @@ import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.subsystems.Intake.ExtendSubsystem;
 
 @Config
 public class VisionSubsystem {
@@ -22,7 +21,7 @@ public class VisionSubsystem {
     }
 
     private Telemetry telemetry;
-    private ExtendSubsystem extend;
+//    private ExtendSubsystem extend;
 
     public limelightState state;
     private Limelight3A limelight;
@@ -35,9 +34,9 @@ public class VisionSubsystem {
     private DcMotor lf,rf,lb,rb;
 
 
-    public VisionSubsystem(HardwareMap hardwareMap, Telemetry telemetry, ExtendSubsystem extend) {
+    public VisionSubsystem(HardwareMap hardwareMap, Telemetry telemetry/*, ExtendSubsystem extend*/) {
         this.telemetry = telemetry;
-        this.extend = extend;
+//        this.extend = extend;
         limelight = hardwareMap.get(Limelight3A.class, "limelight");
         limelight.setPollRateHz(100); // per sec
 
@@ -86,7 +85,7 @@ public class VisionSubsystem {
     public void extendAlign(double error) {
         double extendoTickstoInches = 13.5;
         int extendDistance = (int) (error * extendoTickstoInches);
-        extend.setTarget(extendDistance);
+//        extend.setTarget(extendDistance);
     }
 
     public void driveAlign(double error) {
