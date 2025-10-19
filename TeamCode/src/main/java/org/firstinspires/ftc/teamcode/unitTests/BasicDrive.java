@@ -38,8 +38,8 @@ public class BasicDrive extends OpMode {
         y=-gamepad1.left_stick_y;
         pivot = gamepad1.right_stick_x;
         frontleft.setPower(y+x-pivot);
-        backleft.setPower(y-x-pivot);
+        backleft.setPower(y+x-pivot);
         frontright.setPower(y-x+pivot);
-        backright.setPower(y+x+pivot);
+        backright.setPower(y-x+pivot);
     }
 }
