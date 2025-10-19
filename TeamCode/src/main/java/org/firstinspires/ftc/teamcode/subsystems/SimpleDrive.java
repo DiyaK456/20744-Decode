@@ -1,19 +1,14 @@
-package org.firstinspires.ftc.teamcode.unitTests;
+package org.firstinspires.ftc.teamcode.subsystems;
 
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.config.HardwareNames;
 
-@TeleOp (group = "UnitTest")
-public class BasicDrive extends OpMode {
-
+public class SimpleDrive {
     DcMotor frontleft, frontright, backleft, backright;
-
-    @Override
-    public void init() {
-        frontleft = hardwareMap.get(DcMotor.class,  HardwareNames.DT.fl);
+    public SimpleDrive(HardwareMap hardwareMap) {
+        frontleft = hardwareMap.get(DcMotor.class, HardwareNames.DT.fl);
         frontright = hardwareMap.get(DcMotor.class,  HardwareNames.DT.fr);
         backleft = hardwareMap.get(DcMotor.class,  HardwareNames.DT.bl);
         backright = hardwareMap.get(DcMotor.class,  HardwareNames.DT.br);
@@ -25,20 +20,7 @@ public class BasicDrive extends OpMode {
         frontright.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backright.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
-    @Override
-    public void init_loop() {
-    }
-
-    @Override
-    public void start() {
-
-    }
-    double x=0,y=0,pivot=0;
-    @Override
-    public void loop() {
-        x=gamepad1.left_stick_x;
-        y=-gamepad1.left_stick_y;
-        pivot = gamepad1.right_stick_x;
+    public void Set(double x,double y, double pivot) {
         frontleft.setPower(y+x-pivot);
         backleft.setPower(y-x-pivot);
         frontright.setPower(y+x+pivot);
