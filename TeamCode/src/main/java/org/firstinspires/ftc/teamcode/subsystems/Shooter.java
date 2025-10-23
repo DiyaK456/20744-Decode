@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -20,8 +21,10 @@ public class Shooter {
         motor2.setDirection(DcMotorSimple.Direction.REVERSE);
         motor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         motor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motor2.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         motor2.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        motor2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
     public void SetVelocity(double velocity) {
         targetVel = velocity;
@@ -31,7 +34,8 @@ public class Shooter {
     public void StartShoot() {SetVelocity(Constants.ShootSpeed);}
     public void Stop() {SetVelocity(0);motor.setPower(0);motor2.setPower(0);}
     public double GetTargetVelocity() {return targetVel;}
-    public double GetVelocity() {return Math.abs(motor.getVelocity(AngleUnit.DEGREES) + motor2.getVelocity(AngleUnit.DEGREES))/2;}
+    public double GetMotorTargetVel() {return (motor.getTargetPosition() + motor2.getTargetPosition())/2d;}
+    public double GetVelocity() {return Math.abs(motor.getVelocity(AngleUnit.DEGREES) + motor2.getVelocity(AngleUnit.DEGREES))/2d;}
     public double GetError() {return error = GetVelocity()-GetTargetVelocity();}
     public boolean UpdateShootReady() {return shootReady = Math.abs(GetError()) < errorRange && GetVelocity() > 0;}
     public boolean ShootReady() {return shootReady;}

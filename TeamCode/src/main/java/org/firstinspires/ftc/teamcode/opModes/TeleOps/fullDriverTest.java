@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.opModes.TeleOps;
 import android.widget.Button;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -14,13 +16,15 @@ import org.firstinspires.ftc.teamcode.util.ButtonBlock;
 
 @TeleOp
 public class fullDriverTest extends OpMode {
+    FtcDashboard dashboard = FtcDashboard.getInstance();
     SimpleDrive drive;
     Shooter shooter;
     DcMotor intake;
     DualClawController doors;
 
-    ButtonBlock doorControl, intakeControl, shooterControl;
+    ButtonBlock doorControl, intakeControl, shooterControl, doorsToggle;
     boolean intaking = false;
+    boolean outtaking = false;
     double intakePower = -1;
     boolean shooting = false;
 
@@ -29,28 +33,43 @@ public class fullDriverTest extends OpMode {
         drive = new SimpleDrive(hardwareMap);
         shooter = new Shooter(hardwareMap);
         intake = hardwareMap.get(DcMotor.class, HardwareNames.intakeMotor);
-        doors = new DualClawController(hardwareMap, HardwareNames.leftDoor, Constants.DoorsOpen,Constants.DoorsClosed,HardwareNames.rightDoor, Constants.DoorsOpen,Constants.DoorsClosed);
+        doors = new DualClawController(hardwareMap,
+                HardwareNames.leftDoor, Constants.DoorsOpen,Constants.DoorsClosed,
+                HardwareNames.rightDoor, Constants.DoorsOpen,Constants.DoorsClosed);
 
         doorControl = new ButtonBlock()
                 .onTrue(() -> doors.open())
                 .onFalse(() -> doors.close());
+        doorsToggle = new ButtonBlock()
+                .onTrue(() -> doors.toggle());
         intakeControl = new ButtonBlock()
-                .onTrue(() -> toggleIntake());
+                .onTrue(this::toggleIntake);
         shooterControl = new ButtonBlock()
-                .onTrue(() -> toggleShooter());
+                .onTrue(this::toggleShooter);
+
+        telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
     }
 
     @Override
     public void start() {
-        doors.open();
+        doors.close();
     }
 
     @Override
     public void loop() {
         drive.Set(gamepad1.left_stick_x,gamepad1.left_stick_y,gamepad1.right_stick_x);
-        doorControl.update(shooter.UpdateShootReady());
+        //doorControl.update(shooter.UpdateShootReady());
+        doorsToggle.update(gamepad1.a);
 
-        if (shooter.Shooting()) {
+        if (gamepad1.left_trigger > 0 && !outtaking) {
+            outtaking = true;
+        } else if (gamepad1.left_trigger == 0) {
+            outtaking = false;
+        }
+
+        if (outtaking)
+            intake.setPower(gamepad1.left_trigger);
+        else if (shooter.Shooting()) {
             intake.setPower(intakePower);
             intaking = true;
         } else {
