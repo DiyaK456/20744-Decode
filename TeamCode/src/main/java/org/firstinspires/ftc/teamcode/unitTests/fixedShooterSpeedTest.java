@@ -16,6 +16,7 @@ public class fixedShooterSpeedTest extends LinearOpMode {
     public void runOpMode() {
         DcMotor motor1 = hardwareMap.get(DcMotor.class, HardwareNames.shooterMotor);
         DcMotor motor2 = hardwareMap.get(DcMotor.class, HardwareNames.shooterMotor2);
+        DcMotor intake = hardwareMap.get(DcMotor.class, HardwareNames.intakeMotor);
         motor2.setDirection(DcMotorSimple.Direction.REVERSE);
 
         waitForStart();
@@ -28,6 +29,16 @@ public class fixedShooterSpeedTest extends LinearOpMode {
                 motor1.setPower(0);
                 motor2.setPower(0);
             }
+
+            if (gamepad1.x) {
+                intake.setPower(-1);
+            } else {
+                intake.setPower(0);
+            }
+
+            telemetry.addLine("Hold A to run Shooter");
+            telemetry.addLine("Hold X to run Intake");
+            telemetry.update();
         }
     }
 }

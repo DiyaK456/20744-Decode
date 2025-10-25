@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.unitTests;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
@@ -25,6 +26,9 @@ public class ShooterPower extends LinearOpMode {
         intakeMotor = hardwareMap.get(DcMotorEx.class, "intake");
         motor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         motor.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+        motor2.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        motor2.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+        motor2.setDirection(DcMotorSimple.Direction.REVERSE);
 
         //dpadDown = new ButtonBlock().onTrue(() -> {targetSpeed/=2;motor.setVelocity(targetSpeed, AngleUnit.DEGREES);});
         //dpadUp = new ButtonBlock().onTrue(() -> {targetSpeed*=2;motor.setVelocity(targetSpeed, AngleUnit.DEGREES);});
@@ -34,7 +38,7 @@ public class ShooterPower extends LinearOpMode {
             //motor.setVelocity(targetSpeed,AngleUnit.DEGREES);
             while (opModeIsActive()) {
                 motor.setPower(gamepad1.right_stick_y);
-                motor2.setPower(-gamepad1.right_stick_y);
+                motor2.setPower(gamepad1.right_stick_y);
                 toggleIntake.update(gamepad1.right_bumper);
                 //dpadDown.update(gamepad1.dpad_down);dpadUp.update(gamepad1.dpad_up);
                 telemetry.addData("Var Target Speed",targetSpeed);

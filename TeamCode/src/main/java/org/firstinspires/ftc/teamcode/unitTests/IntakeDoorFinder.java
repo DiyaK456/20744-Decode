@@ -13,12 +13,6 @@ public class IntakeDoorFinder extends OpMode {
     public void init() {
         intakeDoor = new DualServoFinder(hardwareMap, HardwareNames.leftDoor, HardwareNames.rightDoor);
     }
-
-    @Override
-    public void start() {
-
-    }
-
     @Override
     public void loop() {
         intakeDoor.update(gamepad1, telemetry, getRuntime());
