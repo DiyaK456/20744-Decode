@@ -20,6 +20,7 @@ public class ButtonBlock {
             pressed = false;
         }
     }
+    public void ResetLock() {pressed = false;}
     public ButtonBlock onTrue(RunCommand runCommand) {
         this.onTrue = runCommand;
         return this;

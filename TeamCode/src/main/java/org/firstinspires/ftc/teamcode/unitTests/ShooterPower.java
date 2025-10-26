@@ -43,6 +43,7 @@ public class ShooterPower extends LinearOpMode {
                 //dpadDown.update(gamepad1.dpad_down);dpadUp.update(gamepad1.dpad_up);
                 telemetry.addData("Var Target Speed",targetSpeed);
                 telemetry.addData("Motor Current", motor.getCurrent(CurrentUnit.AMPS));
+                telemetry.addData("Motor Power", motor.getPower());
                 telemetry.addData("Motor Velocity", motor.getVelocity());
                 telemetry.addData("Motor Velocity (Deg)", motor.getVelocity(AngleUnit.DEGREES));
                 telemetry.addData("Motor Pos", motor.getCurrentPosition());

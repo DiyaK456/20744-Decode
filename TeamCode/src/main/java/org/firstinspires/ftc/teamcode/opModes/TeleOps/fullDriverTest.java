@@ -58,25 +58,44 @@ public class fullDriverTest extends OpMode {
     @Override
     public void loop() {
         drive.Set(gamepad1.left_stick_x,gamepad1.left_stick_y,gamepad1.right_stick_x);
-        //doorControl.update(shooter.UpdateShootReady());
-        doorsToggle.update(gamepad1.a);
-
-        if (gamepad1.left_trigger > 0 && !outtaking) {
-            outtaking = true;
-        } else if (gamepad1.left_trigger == 0) {
-            outtaking = false;
-        }
-
-        if (outtaking)
-            intake.setPower(gamepad1.left_trigger);
-        else if (shooter.Shooting()) {
-            intake.setPower(intakePower);
-            intaking = true;
+        if (gamepad1.b) {
+            doors.open();
+            doorControl.ResetLock();
+        } else if (gamepad1.y) {
+            doors.close();
+            doorControl.ResetLock();
         } else {
-            intakeControl.update(gamepad1.left_bumper);
+            doorControl.update(shooter.UpdateShootReady() && gamepad1.a);
         }
 
-        shooterControl.update(gamepad1.right_bumper);
+        if (gamepad1.dpad_down) {
+            Constants.ShootSpeed = Constants.MedShootSpeed;
+        } else if (gamepad1.dpad_up) {
+            Constants.ShootSpeed = Constants.FarShootSpeed;
+        }
+        //doorsToggle.update(gamepad1.a);
+
+//        if (gamepad1.left_bumper && !outtaking) {
+//            outtaking = true;
+//        } else if (!gamepad1.left_bumper) {
+//            outtaking = false;
+//        }
+
+//        if (outtaking)
+//            intake.setPower(-intakePower*0.6);
+//        else if (shooter.Shooting()) {
+//            intake.setPower(intakePower);
+//            intaking = true;
+//        } else {
+//            intakeControl.update(gamepad1.right_bumper);
+//        }
+        if (gamepad1.right_bumper) {
+            intake.setPower(intakePower);
+        } else if (gamepad1.left_bumper) {
+            intake.setPower(intakePower * -0.6);
+        }
+
+        shooterControl.update(gamepad1.right_trigger > 0.1);
 
         telemetry.addData("Doors State", doors.getState());
         telemetry.addData("Shooter Vel", shooter.GetVelocity());

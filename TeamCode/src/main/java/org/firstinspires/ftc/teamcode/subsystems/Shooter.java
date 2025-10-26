@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.config.HardwareNames;
 public class Shooter {
     DcMotorEx motor, motor2;
     double targetVel = 0; // measured in degrees
-    double errorRange = 50; // Plus or minus this amount
+    //double errorRange = 15; // Plus or minus this amount
     double error;
     boolean shootReady = false;
     public Shooter(HardwareMap hw) {
@@ -37,7 +37,7 @@ public class Shooter {
     public double GetMotorTargetVel() {return (motor.getTargetPosition() + motor2.getTargetPosition())/2d;}
     public double GetVelocity() {return Math.abs(motor.getVelocity(AngleUnit.DEGREES) + motor2.getVelocity(AngleUnit.DEGREES))/2d;}
     public double GetError() {return error = GetVelocity()-GetTargetVelocity();}
-    public boolean UpdateShootReady() {return shootReady = Math.abs(GetError()) < errorRange && GetVelocity() > 0;}
+    public boolean UpdateShootReady() {return shootReady = Math.abs(GetError()) < Constants.ShooterErrorRange && GetVelocity() > targetVel/1.5;}
     public boolean ShootReady() {return shootReady;}
     public boolean Shooting() {return GetVelocity() > 0;}
 }
