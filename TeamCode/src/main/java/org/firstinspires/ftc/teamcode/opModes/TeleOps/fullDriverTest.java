@@ -34,8 +34,8 @@ public class fullDriverTest extends OpMode {
         shooter = new Shooter(hardwareMap);
         intake = hardwareMap.get(DcMotor.class, HardwareNames.intakeMotor);
         doors = new DualClawController(hardwareMap,
-                HardwareNames.leftDoor, Constants.DoorsOpen,Constants.DoorsClosed,
-                HardwareNames.rightDoor, Constants.DoorsOpen,Constants.DoorsClosed);
+                HardwareNames.leftDoor, Constants.LeftDoorsOpen,Constants.LeftDoorsClosed,
+                HardwareNames.rightDoor, Constants.RightDoorsOpen,Constants.RightDoorsClosed);
 
         doorControl = new ButtonBlock()
                 .onTrue(() -> doors.open())
@@ -58,14 +58,19 @@ public class fullDriverTest extends OpMode {
     @Override
     public void loop() {
         drive.Set(gamepad1.left_stick_x,gamepad1.left_stick_y,gamepad1.right_stick_x);
-        if (gamepad1.b) {
+//        if (gamepad1.b) {
+//            doors.open();
+//            doorControl.ResetLock();
+//        } else if (gamepad1.y) {
+//            doors.close();
+//            doorControl.ResetLock();
+//        } else {
+//            doorControl.update(shooter.UpdateShootReady() && gamepad1.a);
+//        }
+        if (gamepad1.a) {
             doors.open();
-            doorControl.ResetLock();
-        } else if (gamepad1.y) {
-            doors.close();
-            doorControl.ResetLock();
         } else {
-            doorControl.update(shooter.UpdateShootReady() && gamepad1.a);
+            doors.close();
         }
 
         if (gamepad1.dpad_down) {
@@ -93,6 +98,8 @@ public class fullDriverTest extends OpMode {
             intake.setPower(intakePower);
         } else if (gamepad1.left_bumper) {
             intake.setPower(intakePower * -0.6);
+        } else {
+            intake.setPower(0);
         }
 
         shooterControl.update(gamepad1.right_trigger > 0.1);

@@ -21,9 +21,9 @@ public class SimpleDrive {
         backright.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
     public void Set(double x,double y, double pivot) {
-        frontleft.setPower(y+x-pivot);
-        backleft.setPower(y-x-pivot);
-        frontright.setPower(y+x+pivot);
-        backright.setPower(y-x+pivot);
+        frontleft.setPower(y-x-pivot);
+        backleft.setPower(y+x-pivot);
+        frontright.setPower(y-x+pivot);
+        backright.setPower(y+x+pivot);
     }
 }
