@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.config;
 
 import com.acmerobotics.dashboard.config.Config;
-
+//
 @Config
 public class Constants {
     public static double ShootSpeed = 103; // In degrees

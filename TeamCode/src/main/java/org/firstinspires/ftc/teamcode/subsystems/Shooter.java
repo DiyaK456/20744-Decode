@@ -41,3 +41,4 @@ public class Shooter {
     public boolean ShootReady() {return shootReady;}
     public boolean Shooting() {return GetVelocity() > 0;}
 }
+//
