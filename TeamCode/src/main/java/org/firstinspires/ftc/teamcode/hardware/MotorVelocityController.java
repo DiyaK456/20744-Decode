@@ -1,8 +1,10 @@
 package org.firstinspires.ftc.teamcode.hardware;
 
 import com.arcrobotics.ftclib.controller.PIDController;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -21,9 +23,13 @@ public class MotorVelocityController {
     private ElapsedTime timer = new ElapsedTime();
 
     public MotorVelocityController(HardwareMap hw, String motorName) {
-        pid = new PIDController(1,0,0);
         motor = hw.get(DcMotorEx.class, motorName);
         motor.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+
+        PIDFCoefficients rawCoef = motor.getPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        pid = new PIDController(rawCoef.p,rawCoef.i,rawCoef.d);
+
         timer.reset();
         lastPosition = motor.getCurrentPosition();
     }
@@ -39,11 +45,11 @@ public class MotorVelocityController {
         isBusy = false;
     }
 
-    public double getVelocityDegrees() {
-        return currentVelocityDegrees;
-    }
+//    public double getVelocityDegrees() {
+//        return currentVelocityDegrees;
+//    }
 
-    public double getRawVelocityDeg() {
+    public double getVelocityDegrees() {
         return motor.getVelocity(AngleUnit.DEGREES);
     }
 
@@ -82,7 +88,7 @@ public class MotorVelocityController {
 
         // Apply target velocity logic (e.g., open-loop control)
         if (isBusy) {
-            double power = pid.calculate(getRawVelocityDeg(), targetVelocity);
+            double power = pid.calculate(getVelocityDegrees(), targetVelocity);
             motor.setPower(power);
         }
     }

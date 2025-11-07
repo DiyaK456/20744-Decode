@@ -27,7 +27,7 @@ public class motorVelocityPIDTester extends LinearOpMode {
                 telemetry.addData("Motor Position Ticks", motor.getPosTicks());
                 telemetry.addData("Current Speed Ticks", motor.getVelocityTicks());
                 telemetry.addData("Current Speed Deg", motor.getVelocityDegrees());
-                telemetry.addData("Current Speed Deg(Built in)", motor.getRawVelocityDeg());
+                //telemetry.addData("Current Speed Deg(Built in)", motor.getRawVelocityDeg());
                 telemetry.update();
             }
         }

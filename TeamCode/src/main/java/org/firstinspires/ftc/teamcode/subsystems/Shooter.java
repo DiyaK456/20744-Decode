@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.config.Constants;
@@ -25,6 +26,10 @@ public class Shooter {
         motor2.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         motor2.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         motor2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motor.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER,
+                new PIDFCoefficients(Constants.shooterMotor.P, Constants.shooterMotor.I, Constants.shooterMotor.D, 0));
+        motor2.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER,
+                new PIDFCoefficients(Constants.shooterMotor.P, Constants.shooterMotor.I, Constants.shooterMotor.D, 0));
     }
     public void SetVelocity(double velocity) {
         targetVel = velocity;

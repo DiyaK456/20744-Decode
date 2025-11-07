@@ -15,4 +15,8 @@ public class Constants {
     public static double kP = 0.00025;
     public static double kI = 0.0008;
     public static double kD = 0.006;
+
+    public static class shooterMotor {
+        public static double P = 12, I = 3, D = 2;
+    }
 }
