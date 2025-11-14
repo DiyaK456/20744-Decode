@@ -12,14 +12,13 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.teamcode.config.Constants;
 import org.firstinspires.ftc.teamcode.config.HardwareNames;
 import org.firstinspires.ftc.teamcode.util.ButtonBlock;
 
 @Config
 @TeleOp (group = "UnitTest")
-public class MotorSpeedHolderTest extends LinearOpMode {
+public class ShooterSpeedPIDTest extends LinearOpMode {
     FtcDashboard dashboard = FtcDashboard.getInstance();
     public static double P = Constants.shooterMotor.P, I = Constants.shooterMotor.I, D = Constants.shooterMotor.D;
     PIDFCoefficients pidCoef;

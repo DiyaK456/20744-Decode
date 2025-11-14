@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import org.firstinspires.ftc.teamcode.config.HardwareNames;
 
 @TeleOp
-public class genericMotorSpin extends LinearOpMode {
+public class ShooterMaxPower extends LinearOpMode {
 
     private boolean aPressed = false;
     private DcMotor motor, motor2;

@@ -15,7 +15,7 @@ public class ShooterIDK {
     //double errorRange = 15; // Plus or minus this amount
     double error;
     boolean shootReady = false;
-    public ShooterIDK(HardwareMap hw) {
+    public ShooterIDK(HardwareMap hw) { // What is the purpose of this
         motor = hw.get(DcMotorEx.class, HardwareNames.shooterMotor);
         motor2 = hw.get(DcMotorEx.class, HardwareNames.shooterMotor2);
         motor2.setDirection(DcMotorSimple.Direction.REVERSE);

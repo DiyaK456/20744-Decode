@@ -33,7 +33,7 @@ public class PIDShooter {
     private ElapsedTime timer = new ElapsedTime();
 
 
-    public PIDShooter(HardwareMap hw) {
+    public PIDShooter(HardwareMap hw) { // Gang what is ts 🥀
         pid = new PIDController(kP,kI,kD);
 
         motor = hw.get(DcMotorEx.class, HardwareNames.shooterMotor);

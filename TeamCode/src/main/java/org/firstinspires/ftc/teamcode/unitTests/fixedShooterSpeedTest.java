@@ -14,6 +14,7 @@ public class fixedShooterSpeedTest extends LinearOpMode {
 
     @Override
     public void runOpMode() {
+        // dawg we have another program that does the same thing
         DcMotor motor1 = hardwareMap.get(DcMotor.class, HardwareNames.shooterMotor);
         DcMotor motor2 = hardwareMap.get(DcMotor.class, HardwareNames.shooterMotor2);
         DcMotor intake = hardwareMap.get(DcMotor.class, HardwareNames.intakeMotor);
