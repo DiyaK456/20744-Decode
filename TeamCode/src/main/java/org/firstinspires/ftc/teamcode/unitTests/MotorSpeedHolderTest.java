@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.unitTests;
 
+import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.control.PIDCoefficients;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -18,8 +20,10 @@ import org.firstinspires.ftc.teamcode.util.ButtonBlock;
 @Config
 @TeleOp (group = "UnitTest")
 public class MotorSpeedHolderTest extends LinearOpMode {
+    FtcDashboard dashboard = FtcDashboard.getInstance();
     public static double P = Constants.shooterMotor.P, I = Constants.shooterMotor.I, D = Constants.shooterMotor.D;
     PIDFCoefficients pidCoef;
+    public static PIDCoefficients pidTestStuff = new PIDCoefficients(0,0,0);
     DcMotorEx motor, motor2;
     ButtonBlock dpadDown,dpadUp;
     double targetSpeed = 45;
@@ -27,6 +31,7 @@ public class MotorSpeedHolderTest extends LinearOpMode {
     int lastPos = 0;
     @Override
     public void runOpMode() {
+        telemetry = new MultipleTelemetry(telemetry,dashboard.getTelemetry());
         motor = hardwareMap.get(DcMotorEx.class, HardwareNames.shooterMotor);
 //        motor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         motor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);

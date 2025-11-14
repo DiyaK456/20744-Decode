@@ -10,19 +10,25 @@ import org.firstinspires.ftc.teamcode.config.HardwareNames;
 public class genericMotorSpin extends LinearOpMode {
 
     private boolean aPressed = false;
-    private DcMotor motor;
-    private double power = 1;
+    private DcMotor motor, motor2;
+    private double power = -1;
     @Override
     public void runOpMode() {
         motor = hardwareMap.get(DcMotor.class, HardwareNames.shooterMotor);
+        motor2 = hardwareMap.get(DcMotor.class, HardwareNames.shooterMotor2);
+        motor2.setDirection(DcMotor.Direction.REVERSE);
 
         waitForStart();
-        if (opModeIsActive()) motor.setPower(power);
+        if (opModeIsActive()) {
+            motor.setPower(power);
+            motor2.setPower(power);
+        }
         while (opModeIsActive()) {
             if (gamepad1.a && !aPressed)
                 power = -power;
             aPressed = gamepad1.a;
             motor.setPower(power);
+            motor2.setPower(power);
 
             telemetry.addLine("Press A to switch directions");
             telemetry.update();

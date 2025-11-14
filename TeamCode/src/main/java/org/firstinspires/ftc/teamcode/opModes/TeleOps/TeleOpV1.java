@@ -1,31 +1,34 @@
 package org.firstinspires.ftc.teamcode.opModes.TeleOps;
-import android.widget.Button;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.teamcode.config.Constants;
 import org.firstinspires.ftc.teamcode.config.HardwareNames;
 import org.firstinspires.ftc.teamcode.hardware.DualClawController;
+import org.firstinspires.ftc.teamcode.subsystems.Robot;
 import org.firstinspires.ftc.teamcode.subsystems.Shooter;
 import org.firstinspires.ftc.teamcode.subsystems.SimpleDrive;
 import org.firstinspires.ftc.teamcode.util.ButtonBlock;
+import org.firstinspires.ftc.teamcode.util.OpModeType;
 
-@TeleOp
-public class fullDriverTest extends OpMode {
+@TeleOp (name = "TeleOp", group="!Priority")
+public class TeleOpV1 extends OpMode {
     FtcDashboard dashboard = FtcDashboard.getInstance();
+    Robot robot;
     SimpleDrive drive;
     Shooter shooter;
     DcMotor intake;
-    DualClawController doors;
+//    DualClawController doors;
 
     ButtonBlock doorControl, intakeControl, shooterControl, doorsToggle;
     boolean intaking = false;
     boolean outtaking = false;
-    double intakePower = -1;
+    double intakePower = 1;
     boolean shooting = false;
 
     @Override
@@ -33,30 +36,32 @@ public class fullDriverTest extends OpMode {
         drive = new SimpleDrive(hardwareMap);
         shooter = new Shooter(hardwareMap);
         intake = hardwareMap.get(DcMotor.class, HardwareNames.intakeMotor);
-        doors = new DualClawController(hardwareMap,
-                HardwareNames.leftDoor, Constants.LeftDoorsOpen,Constants.LeftDoorsClosed,
-                HardwareNames.rightDoor, Constants.RightDoorsOpen,Constants.RightDoorsClosed);
+        intake.setDirection(DcMotorSimple.Direction.REVERSE);
+        robot = new Robot(hardwareMap, OpModeType.TELEOP);
 
         doorControl = new ButtonBlock()
-                .onTrue(() -> doors.open())
-                .onFalse(() -> doors.close());
+                .onTrue(() -> robot.doors.open())
+                .onFalse(() -> robot.doors.close());
         doorsToggle = new ButtonBlock()
-                .onTrue(() -> doors.toggle());
+                .onTrue(() -> robot.doors.toggle());
         intakeControl = new ButtonBlock()
                 .onTrue(this::toggleIntake);
         shooterControl = new ButtonBlock()
                 .onTrue(this::toggleShooter);
 
         telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
+        robot.OnInit();
     }
 
     @Override
     public void start() {
-        doors.close();
+        robot.OnStart();
+//        intake.setPower(intakePower*0.6);
     }
 
     @Override
     public void loop() {
+        shooter.UpdateShootReady();
         drive.Set(gamepad1.left_stick_x,gamepad1.left_stick_y,gamepad1.right_stick_x);
 //        if (gamepad1.b) {
 //            doors.open();
@@ -67,10 +72,12 @@ public class fullDriverTest extends OpMode {
 //        } else {
 //            doorControl.update(shooter.UpdateShootReady() && gamepad1.a);
 //        }
+        if (shooter.ShootReady()) gamepad1.rumble(100);
+
         if (gamepad1.a) {
-            doors.open();
+            robot.doors.open();
         } else {
-            doors.close();
+            robot.doors.close();
         }
 
         if (gamepad1.dpad_down) {
@@ -99,12 +106,12 @@ public class fullDriverTest extends OpMode {
         } else if (gamepad1.left_bumper) {
             intake.setPower(intakePower * -0.6);
         } else {
-            intake.setPower(0);
+            intake.setPower(intakePower*0.6);
         }
 
         shooterControl.update(gamepad1.right_trigger > 0.1);
 
-        telemetry.addData("Doors State", doors.getState());
+        telemetry.addData("Doors State", robot.doors.getState());
         telemetry.addData("Shooter Vel", shooter.GetVelocity());
         telemetry.addData("Shooter Target Vel", shooter.GetTargetVelocity());
         telemetry.update();

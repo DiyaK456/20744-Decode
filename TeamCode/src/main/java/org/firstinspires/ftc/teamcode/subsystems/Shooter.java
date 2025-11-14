@@ -34,7 +34,7 @@ public class Shooter {
     public void SetVelocity(double velocity) {
         targetVel = velocity;
         motor.setVelocity(targetVel, AngleUnit.DEGREES);
-        motor2.setVelocity(targetVel, AngleUnit.DEGREES);
+        motor2.setVelocity(targetVel*Constants.BottomShooterIncrease, AngleUnit.DEGREES);
     }
     public void StartShoot() {SetVelocity(Constants.ShootSpeed);}
     public void Stop() {SetVelocity(0);motor.setPower(0);motor2.setPower(0);}
