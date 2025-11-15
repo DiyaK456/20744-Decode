@@ -39,8 +39,8 @@ public class Shooter {
     public void StartShoot() {SetVelocity(Constants.ShootSpeed);}
     public void Stop() {SetVelocity(0);motor.setPower(0);motor2.setPower(0);}
     public double GetTargetVelocity() {return targetVel;}
-    public double GetMotorTargetVel() {return (motor.getTargetPosition() + motor2.getTargetPosition())/2d;}
-    public double GetVelocity() {return Math.abs(motor.getVelocity(AngleUnit.DEGREES) + motor2.getVelocity(AngleUnit.DEGREES))/2d;}
+    //public double GetMotorTargetVel() {return (motor.getTargetPosition() + motor2.getTargetPosition())/2d;}
+    public double GetVelocity() {return Math.abs(motor.getVelocity(AngleUnit.DEGREES) + motor2.getVelocity(AngleUnit.DEGREES)/Constants.BottomShooterIncrease)/2d;}
     public double GetError() {return error = GetVelocity()-GetTargetVelocity();}
     public boolean UpdateShootReady() {return shootReady = Math.abs(GetError()) < Constants.ShooterErrorRange && GetVelocity() > targetVel/1.5;}
     public boolean ShootReady() {return shootReady;}

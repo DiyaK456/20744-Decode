@@ -10,8 +10,8 @@ import org.firstinspires.ftc.teamcode.hardware.DualClawController;
 import org.firstinspires.ftc.teamcode.subsystems.Shooter;
 import org.firstinspires.ftc.teamcode.subsystems.SimpleDrive;
 
-@Autonomous(name = "LM0Auto")
-public class LM0Auto extends LinearOpMode {
+@Autonomous
+public class LeaguesFarAuto extends LinearOpMode {
 
     private Shooter shooter;
     private
@@ -36,7 +36,8 @@ public class LM0Auto extends LinearOpMode {
         doors.close();
         waitForStart();
         if (opModeIsActive()) {
-            int spinUpTime = 4000, doorsOpenTime = 100;
+            int spinUpTime = 4000, doorsOpenTime = 125;
+            Constants.ShootSpeed = Constants.FarShootSpeed;
             shooter.StartShoot();
             intake.setPower(1);
 
@@ -48,8 +49,8 @@ public class LM0Auto extends LinearOpMode {
             }
             intake.setPower(0);
             sleep(250);
-            drive.Set(-0.5,0,0);
-            sleep(300);
+            drive.Set(0,-0.5,0);
+            sleep(500);
         }
     }
 }
