@@ -7,7 +7,7 @@ import org.firstinspires.ftc.teamcode.util.FileConfig;
 //
 @Config
 public class Constants {
-    public static double FarShootSpeed = 158, MedShootSpeed = 148;
+    public static double FarShootSpeed = 140, MedShootSpeed = 128;
     public static double ShootSpeed = MedShootSpeed; // In degrees
     public static double RightDoorsClosed = 0.9, RightDoorsOpen = 0.8;
     public static double LeftDoorsClosed = 0.96, LeftDoorsOpen = 0.82;
