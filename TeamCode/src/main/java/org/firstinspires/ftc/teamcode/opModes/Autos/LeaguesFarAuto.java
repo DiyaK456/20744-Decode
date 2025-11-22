@@ -78,12 +78,13 @@ public class LeaguesFarAuto extends LinearOpMode {
         }
     }
     private void pivot(double targetDegrees, double speed) {
-        // turns at 'speed' speed till deg'targetDegrees'
+        // turns at 'speed' speed till turned 'targetDegrees' degrees
 
         double rot = imu.getRobotYawPitchRollAngles().getYaw();
         double error = degreesError(rot,targetDegrees);
         drive.Set(0,0,speed * (error /Math.abs(error)) );
         while (error < 3) {
+            rot = imu.getRobotYawPitchRollAngles().getYaw();
             error = degreesError(rot,targetDegrees);
             telemetry.addData("turning error", error);
             telemetry.update();
@@ -97,7 +98,7 @@ public class LeaguesFarAuto extends LinearOpMode {
     }
     private void move_fb(double time, double speed) {
         drive.Set(0,speed,0);
-        sleep((int)time*1000);
+        sleep((int)time*1000L);
         drive.Set(0,0,0);
     }
 }
